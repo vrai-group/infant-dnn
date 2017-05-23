@@ -54,6 +54,8 @@ def create_train_data():
 
         if counter_mask % 100 == 0 and counter_8bit % 100 == 0 and counter_16bit % 100 == 0:
             print('Done: {0}/{1} images'.format(counter_mask, total))
+        elif counter_mask == total-1 and counter_8bit == total-1 and counter_16bit == total-1:
+            print('Done: {0}/{1} images'.format(total, total))
     print('Loading done.')
 
     np.save('imgs_train_16bit.npy', imgs_16bit)
