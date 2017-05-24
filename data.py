@@ -25,6 +25,7 @@ def create_train_data():
     imgs_16bit = np.ndarray((total, image_rows, image_cols), dtype=np.uint16)
     imgs_8bit = np.ndarray((total, image_rows, image_cols), dtype=np.uint8)
     imgs_mask = np.ndarray((total, image_rows, image_cols), dtype=np.uint8)
+    ids = []
 
     counter_16bit = 0
     counter_8bit = 0
@@ -41,6 +42,7 @@ def create_train_data():
             img_mask = imread(os.path.join(path, image_name), as_grey=True)
             img_mask = np.array([img_mask])
             imgs_mask[counter_mask] = img_mask
+            ids.append(image_name.split('.')[0].replace('_mask', ''))
             counter_mask += 1
         else:
             img = imread(os.path.join(path, image_name), as_grey=True)
@@ -58,10 +60,14 @@ def create_train_data():
             print('Done: {0}/{1} images'.format(total, total))
     print('Loading done.')
 
+    ids_array= np.array(ids, dtype=object)
+
     np.save('imgs_train_16bit.npy', imgs_16bit)
     np.save('imgs_train_8bit.npy', imgs_8bit)
     np.save('imgs_mask_train.npy', imgs_mask)
+    np.save('ids_train.npy', ids_array)
     print('Saving to .npy files done.')
+
 
 if __name__ == '__main__':
     create_train_data()
