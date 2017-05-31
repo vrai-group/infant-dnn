@@ -97,20 +97,25 @@ def create_subarray(subset_index, total_array):
     return result_array
 
 
-def load_train_data():
-    imgs_train_16bit = np.load('imgs_train_16bit.npy')
-    imgs_train_8bit = np.load('imgs_train_8bit.npy')
-    imgs_train_mask= np.load('imgs_train_mask.npy')
+def load_train_data(bit_image):
+    if bit_image == 8:
+        imgs_train = np.load('imgs_train_8bit.npy')
+    else:
+        imgs_train = np.load('imgs_train_16bit.npy')
+    imgs_train_mask = np.load('imgs_train_mask.npy')
     imgs_train_id = np.load('ids_train.npy')
-    return imgs_train_16bit, imgs_train_8bit, imgs_train_mask, imgs_train_id
+    return imgs_train, imgs_train_mask, imgs_train_id
 
 
-def load_test_data():
-    imgs_test_16bit = np.load('imgs_test_16bit.npy')
-    imgs_test_8bit = np.load('imgs_test_8bit.npy')
+def load_test_data(bit_image):
+    if bit_image == 8:
+        imgs_test = np.load('imgs_test_8bit.npy')
+    else:
+        imgs_test = np.load('imgs_test_16bit.npy')
     imgs_test_mask = np.load('imgs_test_mask.npy')
     imgs_test_id = np.load('ids_test.npy')
-    return imgs_test_16bit, imgs_test_8bit, imgs_test_mask, imgs_test_id
+
+    return imgs_test, imgs_test_id, imgs_test_mask
 
 
 if __name__ == '__main__':
