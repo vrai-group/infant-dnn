@@ -115,7 +115,7 @@ def load_test_data(bit_image):
     imgs_test_mask = np.load('imgs_test_mask.npy')
     imgs_test_id = np.load('ids_test.npy')
 
-    return imgs_test, imgs_test_id, imgs_test_mask
+    return imgs_test, imgs_test_mask, imgs_test_id
 
 
 if __name__ == '__main__':
