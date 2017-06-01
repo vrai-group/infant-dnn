@@ -90,7 +90,7 @@ def train_and_predict(bit_image):
     print('Loading and preprocessing train data...')
     print('-' * 30)
 
-    imgs_train, imgs_mask_train = load_train_data(bit_image)
+    imgs_train, imgs_mask_train, imgs_train_ids = load_train_data(bit_image)
 
     imgs_train = preprocess(imgs_train)
     imgs_mask_train = preprocess(imgs_mask_train)
@@ -121,7 +121,7 @@ def train_and_predict(bit_image):
     print('-' * 30)
     print('Loading and preprocessing test data...')
     print('-' * 30)
-    imgs_test, imgs_id_test = load_test_data(bit_image)
+    imgs_test, imgs_mask_test_old, imgs_id_test = load_test_data(bit_image)
     imgs_test = preprocess(imgs_test)
 
     imgs_test = imgs_test.astype('float32')
