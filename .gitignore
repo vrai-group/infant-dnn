@@ -1,3 +1,5 @@
 .idea/*
 raw/*
 *.npy
+preds*
+trained model/*
