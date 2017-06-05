@@ -1,6 +1,7 @@
 from __future__ import print_function
 
 import os
+import datetime
 from skimage.transform import resize
 from skimage.io import imsave
 import numpy as np
@@ -17,6 +18,9 @@ img_rows = 128
 img_cols = 128
 
 smooth = 1.
+
+epochs = 50
+validation_split = 0.1
 
 
 def dice_coef(y_true, y_pred):
@@ -119,14 +123,14 @@ def train_and_predict(bit_image):
     print('-' * 30)
     print('Fitting model...')
     print('-' * 30)
-    model.fit(imgs_train, imgs_mask_train, batch_size=32, epochs=20, verbose=1, shuffle=True,
-              validation_split=0.2,
+    model.fit(imgs_train, imgs_mask_train, batch_size=1, epochs=epochs, verbose=2, shuffle=True,
+              validation_split=validation_split,
               callbacks=[model_checkpoint])
 
     print('-' * 30)
     print('Loading and preprocessing test data...')
     print('-' * 30)
-    imgs_test, imgs_mask_test_old, imgs_id_test = load_test_data(bit_image)
+    imgs_test, imgs_mask_test, imgs_id_test = load_test_data(bit_image)
     imgs_test = preprocess(imgs_test)
 
     imgs_test = imgs_test.astype('float32')
@@ -141,18 +145,33 @@ def train_and_predict(bit_image):
     print('-' * 30)
     print('Predicting masks on test data...')
     print('-' * 30)
-    imgs_mask_test = model.predict(imgs_test, verbose=1)
-    np.save('imgs_mask_test.npy', imgs_mask_test)
+    imgs_mask_pred = model.predict(imgs_test, verbose=1)
+    np.save('imgs_mask_pred.npy', imgs_mask_pred)
+
+    print('-' * 30)
+    print('Calculating accuracy...')
+    print('-' * 30)
+    evaluate_result(imgs_mask_pred, imgs_mask_test)
 
     print('-' * 30)
     print('Saving predicted masks to files...')
     print('-' * 30)
-    pred_dir = 'preds'
+    pred_dir = 'preds' + str(datetime.datetime.now()).replace(":","-")
     if not os.path.exists(pred_dir):
         os.mkdir(pred_dir)
-    for image, image_id in zip(imgs_mask_test, imgs_id_test):
+    for image, image_id in zip(imgs_mask_pred, imgs_id_test):
         image = (image[:, :, 0] * 255.).astype(np.uint8)
         imsave(os.path.join(pred_dir, str(image_id) + '_pred.png'), image)
+
+def evaluate_result(imgs_mask_pred, imgs_mask_test):
+    imgs_mask_pred = imgs_mask_pred * 255
+    imgs_mask_test = preprocess(imgs_mask_test)
+    imgs_diff = (imgs_mask_pred - imgs_mask_test).astype(np.uint8)
+    accuracy = []
+    for img in imgs_diff:
+        count = np.count_nonzero(img==0)
+        accuracy.append(count/(img_rows*img_cols))
+    print('Accuracy: ', np.mean(accuracy)*100 ,'%')
 
 if __name__ == '__main__':
     train_and_predict(8)
