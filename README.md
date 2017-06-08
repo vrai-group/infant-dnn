@@ -1,15 +1,10 @@
 # Infant segmentation with Deep Neural Networks
 
-The aim of the project is to extract the shape of infants from a set of depth images.
-
-First of all it was created a dataset of labelled images taken from several recordings.
-
-Secondly the [U-Net](https://lmb.informatik.uni-freiburg.de/people/ronneber/u-net/)  was appositely configured to train itself on the dataset previous mentioned.
-
-Lastly the U-Net trained model should predict, getting new depth images as input, the shape of infants. 
+The aim of the project is to extract the shape of infants from a set of depth images. First of all it was created a dataset of labelled images taken from several recordings. Secondly the [U-Net](https://lmb.informatik.uni-freiburg.de/people/ronneber/u-net/)  was appositely configured to train itself on the dataset previous mentioned. Lastly the U-Net trained model should predict, getting new depth images as input, the shape of infants. 
 
 ## Prerequisites
 This project was developed on Python 3.6 and needs the following libraries:
+
 * numpy
 * scipy
 * scikit-image
@@ -17,7 +12,6 @@ This project was developed on Python 3.6 and needs the following libraries:
 * Theano/Tensorflow and Keras
 
 Download link: [Libraries](http://www.lfd.uci.edu/~gohlke/pythonlibs/)
-
 
 ## How to use
 
@@ -31,11 +25,11 @@ In order to obtain `*.npy` files from `data.py` script, you have to create the f
  ---- train
  |    |
  |    ---- positive
- |               |
- |                 ---- image.png
+ |    |    |
+ |    |    ---- image.png
  |    ---- partial
- |               |
- |                 ---- image_partial.png
+ |         |
+ |         ---- image_partial.png
 ```
 
 Now run ```python data.py```.
@@ -53,23 +47,25 @@ Once the U-net was trained, you can move `*_train.npy` and `weights.h5` files in
 The previous described `test.py` script get as input the `*_test.npy` files created by `data.py` and the `*_train.npy`files moved in the mentioned folder.
 
 ```
--trained model
  |
- ---- *_train.npy
+ ---- trained model
  |    |
- ---- weights.h5
+ |    ---- *_train.npy
+ |    |
+ |    ---- weights.h5
 ```
 
 ## Contributing
 
-Please read [Marko Jocic repository](https://github.com/jocicmarko/ultrasound-nerve-segmentation) for more detailed information about the U-net architecture. 
-
-
+Please, read [this](https://github.com/jocicmarko/ultrasound-nerve-segmentation) repository for more detailed information about the U-net architecture. 
 
 ## Authors
 
-* **Matteo Sartori** - [GitHub](https://github.com/matteosartori)
-* **Luca Virgili**  - [GitHub](https://github.com/lucav48)
-* **Jacopo Zincarini**  - [GitHub](https://github.com/jacopozincarini)
+* Matteo Sartori | [GitHub](https://github.com/matteosartori)
+* Luca Virgili  | [GitHub](https://github.com/lucav48)
+* Jacopo Zincarini  | [GitHub](https://github.com/jacopozincarini)
 
+## Supervisors
 
+* Daniele Liciotti | [GitHub](https://github.com/danielelic)
+* Annalisa Cenci | [GitHub](https://github.com/cenciannalisa)
